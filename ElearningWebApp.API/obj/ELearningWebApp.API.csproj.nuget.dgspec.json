@@ -81,7 +81,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[5.0.0-rc4, )"
+              "version": "[5.6.3, )"
             },
             "Swashbuckle.AspNetCore.Filters": {
               "target": "Package",
@@ -89,7 +89,7 @@
             },
             "Swashbuckle.AspNetCore.Swagger": {
               "target": "Package",
-              "version": "[5.0.0-rc4, )"
+              "version": "[6.1.1, )"
             }
           },
           "imports": [

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using ELearningWebApp.API.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace ElearningWebApp.API.Data
 {
@@ -17,6 +18,11 @@ namespace ElearningWebApp.API.Data
          Task<Videos> GetVideoByChapterId(int chapterId);
 
          Task<Videos> GetVideoByTopicId(int topicId);
+
+         Task<Syllabus> GetSyllabus();
+         Task<bool> IsExistSubject(string name);
+
+        Subjects AddImage(IFormFile image, string folderName);
 
 
     }

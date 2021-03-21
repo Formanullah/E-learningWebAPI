@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using ELearningWebApp.API.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 //using Microsoft.EntityFrameworkCore.Migrations.Design;
 
-using MogobariWebAPI.BL.Interface;
-using MogobariWebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,14 +11,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MogobariWebAPI.BL
+namespace ElearningWebApp.API.Data
 {
     public class PictureManager : IPictureManager
     {
-        private Mogobari_dbContext _context;
+        private ElearningWebAppdbContext _context;
         private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public PictureManager(IWebHostEnvironment hostingEnvironment, Mogobari_dbContext context)
+        public PictureManager(IWebHostEnvironment hostingEnvironment, ElearningWebAppdbContext context)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
@@ -32,14 +31,14 @@ namespace MogobariWebAPI.BL
         /// <param name="images"></param>
         /// <param name="folderName"></param>
         /// <returns></returns>
-        public async Task<List<Picture>> Create(List<IFormFile> images, string folderName)
+        public async Task<List<Subjects>> Create(List<IFormFile> images, string folderName)
         {
-            List<Picture> pictures = new List<Picture>();
+            List<Subjects> pictures = new List<Subjects>();
 
             foreach (var image in images)
             {
 
-                Picture picture = new Picture();
+                Subjects picture = new Subjects();
                 string path, fileName;
 
                 Save(image, folderName, out path, out fileName);
@@ -48,13 +47,13 @@ namespace MogobariWebAPI.BL
                 if (path != "")
                 {
                     picture.VirtualPath = path;
-                    _context.Picture.Add(picture);
+                    _context.Subjects.Add(picture);
 
                     try
                     {
                         await _context.SaveChangesAsync();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                         return null;
@@ -74,9 +73,9 @@ namespace MogobariWebAPI.BL
         /// <param name="images"></param>
         /// <param name="folderName"></param>
         /// <returns></returns>
-        public async Task<Picture> Create(IFormFile image, string folderName)
+        public async Task<Subjects> Create(IFormFile image, string folderName)
         {
-            Picture picture = new Picture();
+            Subjects picture = new Subjects();
             string path, fileName;
 
             Save(image, folderName, out path, out fileName);
@@ -85,7 +84,7 @@ namespace MogobariWebAPI.BL
             if (path != "")
             {
                 picture.VirtualPath = path;
-                _context.Picture.Add(picture);
+                _context.Subjects.Add(picture);
 
                 try
                 {
@@ -101,7 +100,7 @@ namespace MogobariWebAPI.BL
         }
 
 
-        public async Task<Picture> Update(Picture picture, IFormFile newPic, string folderName)
+        public async Task<Subjects> Update(Subjects picture, IFormFile newPic, string folderName)
         {
             bool res = await Delete(picture);
 
@@ -133,7 +132,7 @@ namespace MogobariWebAPI.BL
         /// </summary>
         /// <param name="picture"></param>
         /// <returns></returns>
-        public async Task<bool> Delete(Picture picture)
+        public async Task<bool> Delete(Subjects picture)
         {
             string root = _hostingEnvironment.WebRootPath;
             string virtualPath = picture.VirtualPath;
@@ -142,7 +141,7 @@ namespace MogobariWebAPI.BL
             string path = Path.Combine(root, virtualPath);
 
 
-            _context.Picture.Remove(picture);
+            _context.Subjects.Remove(picture);
             try
             {
                 await _context.SaveChangesAsync();
@@ -179,11 +178,11 @@ namespace MogobariWebAPI.BL
 
 
 
-        public async Task<bool> DeleteFromDatabase(List<Picture> pictures)
+        public async Task<bool> DeleteFromDatabase(List<Subjects> pictures)
         {
             foreach (var picture in pictures)
             {
-                _context.Picture.Remove(picture);
+                _context.Subjects.Remove(picture);
             }
             try
             {
@@ -197,7 +196,7 @@ namespace MogobariWebAPI.BL
             return true;
 
         }
-        public bool DeleteFromRoot(List<Picture> picture)
+        public bool DeleteFromRoot(List<Subjects> picture)
         {
             string root = _hostingEnvironment.WebRootPath;
 
@@ -222,7 +221,7 @@ namespace MogobariWebAPI.BL
             return true;
 
         }
-        public bool DeleteFromRoot(Picture picture)
+        public bool DeleteFromRoot(Subjects picture)
         {
             string root = _hostingEnvironment.WebRootPath;
 
