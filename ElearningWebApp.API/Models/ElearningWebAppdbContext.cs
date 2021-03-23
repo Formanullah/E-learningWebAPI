@@ -36,11 +36,15 @@ namespace ELearningWebApp.API.Models
         {
             modelBuilder.Entity<Admins>(entity =>
             {
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.PasswordHash).IsRequired();
 
                 entity.Property(e => e.PasswordSalt).IsRequired();
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
             });
 
             modelBuilder.Entity<Chapters>(entity =>
@@ -48,9 +52,13 @@ namespace ELearningWebApp.API.Models
                 entity.HasIndex(e => e.SubjectForClassId)
                     .HasName("IX_Chapters_SubjectForSyllabusId");
 
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.SubjectName).IsRequired();
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
 
                 entity.HasOne(d => d.SubjectForClass)
                     .WithMany(p => p.Chapters)
@@ -63,6 +71,8 @@ namespace ELearningWebApp.API.Models
             {
                 entity.Property(e => e.ClassName).IsRequired();
 
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.MobileNo).IsRequired();
 
                 entity.Property(e => e.Name).IsRequired();
@@ -70,6 +80,8 @@ namespace ELearningWebApp.API.Models
                 entity.Property(e => e.PasswordHash).IsRequired();
 
                 entity.Property(e => e.PasswordSalt).IsRequired();
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
             });
 
             modelBuilder.Entity<SubjectForClass>(entity =>
@@ -80,7 +92,19 @@ namespace ELearningWebApp.API.Models
                 entity.HasIndex(e => e.SubjectId)
                     .HasName("IX_GetSubjectForSyllabus_SubjectId");
 
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.FileName)
+                    .IsRequired()
+                    .IsUnicode(false);
+
                 entity.Property(e => e.SubjectName).IsRequired();
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
+
+                entity.Property(e => e.VirtualPath)
+                    .IsRequired()
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.SubjectForClass)
@@ -97,11 +121,9 @@ namespace ELearningWebApp.API.Models
 
             modelBuilder.Entity<Subjects>(entity =>
             {
-                entity.Property(e => e.FileName).IsRequired();
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.Name).IsRequired();
-
-                entity.Property(e => e.VirtualPath).IsRequired();
             });
 
             modelBuilder.Entity<Topics>(entity =>
@@ -110,7 +132,11 @@ namespace ELearningWebApp.API.Models
 
                 entity.Property(e => e.ChapterName).IsRequired();
 
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.Name).IsRequired();
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
 
                 entity.HasOne(d => d.Chapter)
                     .WithMany(p => p.Topics)
@@ -127,11 +153,15 @@ namespace ELearningWebApp.API.Models
 
                 entity.Property(e => e.ClassName).IsRequired();
 
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.FileName).IsRequired();
 
                 entity.Property(e => e.SubjectName).IsRequired();
 
                 entity.Property(e => e.TopicName).IsRequired();
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
 
                 entity.HasOne(d => d.Chapter)
                     .WithMany(p => p.Videos)

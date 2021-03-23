@@ -12,6 +12,7 @@ namespace ElearningWebApp.API.Data
          Task<bool> SaveAll();
          Task<Class> GetAllClasses();
          Task<ICollection<Subjects>> GetAllSubjects();
+         Task<Subjects> GetSubjectById(int subjectId);
          
          Task<Chapters> GetChapterBySubjectId(int subjectId);
          Task<Topics> GetTopicByChapterId(int ChapterId);
@@ -19,9 +20,12 @@ namespace ElearningWebApp.API.Data
 
          Task<Videos> GetVideoByTopicId(int topicId);
 
-         Task<bool> IsExistSubject(string name);
+         Task<bool> IsExistSubject(int subjectId);
+         Task<bool> IsExistSubjectName(string subjectName);
+         Task<bool> IsExistSubjectInClass(int classId, int subjectId);
+         Task<bool> IsExistSubjectNameInClass(int id, string subjectName);
 
-        Subjects AddImage(IFormFile image, string folderName);
+        SubjectForClass AddImage(IFormFile image, string folderName);
 
 
     }

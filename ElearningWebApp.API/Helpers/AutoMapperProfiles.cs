@@ -11,6 +11,7 @@ namespace DatingApp.API.Helpers
         {
 
             CreateMap<SubjectForCreationDto, Subjects>();
+            CreateMap<SubjectForClassCreationDto, SubjectForClass>();
             /* CreateMap<BookForCreationDto, Book>();
             CreateMap<CategoryForReturnDto, Category>()
             .ForMember(dest => dest.Books, opt => opt.Ignore());

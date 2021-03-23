@@ -31,14 +31,14 @@ namespace ElearningWebApp.API.Data
         /// <param name="images"></param>
         /// <param name="folderName"></param>
         /// <returns></returns>
-        public async Task<List<Subjects>> Create(List<IFormFile> images, string folderName)
+        public async Task<List<SubjectForClass>> Create(List<IFormFile> images, string folderName)
         {
-            List<Subjects> pictures = new List<Subjects>();
+            List<SubjectForClass> pictures = new List<SubjectForClass>();
 
             foreach (var image in images)
             {
 
-                Subjects picture = new Subjects();
+                SubjectForClass picture = new SubjectForClass();
                 string path, fileName;
 
                 Save(image, folderName, out path, out fileName);
@@ -47,7 +47,7 @@ namespace ElearningWebApp.API.Data
                 if (path != "")
                 {
                     picture.VirtualPath = path;
-                    _context.Subjects.Add(picture);
+                    _context.SubjectForClass.Add(picture);
 
                     try
                     {
@@ -73,9 +73,9 @@ namespace ElearningWebApp.API.Data
         /// <param name="images"></param>
         /// <param name="folderName"></param>
         /// <returns></returns>
-        public async Task<Subjects> Create(IFormFile image, string folderName)
+        public async Task<SubjectForClass> Create(IFormFile image, string folderName)
         {
-            Subjects picture = new Subjects();
+            SubjectForClass picture = new SubjectForClass();
             string path, fileName;
 
             Save(image, folderName, out path, out fileName);
@@ -84,7 +84,7 @@ namespace ElearningWebApp.API.Data
             if (path != "")
             {
                 picture.VirtualPath = path;
-                _context.Subjects.Add(picture);
+                _context.SubjectForClass.Add(picture);
 
                 try
                 {
@@ -100,7 +100,7 @@ namespace ElearningWebApp.API.Data
         }
 
 
-        public async Task<Subjects> Update(Subjects picture, IFormFile newPic, string folderName)
+        public async Task<SubjectForClass> Update(SubjectForClass picture, IFormFile newPic, string folderName)
         {
             bool res = await Delete(picture);
 
@@ -132,7 +132,7 @@ namespace ElearningWebApp.API.Data
         /// </summary>
         /// <param name="picture"></param>
         /// <returns></returns>
-        public async Task<bool> Delete(Subjects picture)
+        public async Task<bool> Delete(SubjectForClass picture)
         {
             string root = _hostingEnvironment.WebRootPath;
             string virtualPath = picture.VirtualPath;
@@ -141,7 +141,7 @@ namespace ElearningWebApp.API.Data
             string path = Path.Combine(root, virtualPath);
 
 
-            _context.Subjects.Remove(picture);
+            _context.SubjectForClass.Remove(picture);
             try
             {
                 await _context.SaveChangesAsync();
@@ -178,11 +178,11 @@ namespace ElearningWebApp.API.Data
 
 
 
-        public async Task<bool> DeleteFromDatabase(List<Subjects> pictures)
+        public async Task<bool> DeleteFromDatabase(List<SubjectForClass> pictures)
         {
             foreach (var picture in pictures)
             {
-                _context.Subjects.Remove(picture);
+                _context.SubjectForClass.Remove(picture);
             }
             try
             {
@@ -196,7 +196,7 @@ namespace ElearningWebApp.API.Data
             return true;
 
         }
-        public bool DeleteFromRoot(List<Subjects> picture)
+        public bool DeleteFromRoot(List<SubjectForClass> picture)
         {
             string root = _hostingEnvironment.WebRootPath;
 
@@ -221,7 +221,7 @@ namespace ElearningWebApp.API.Data
             return true;
 
         }
-        public bool DeleteFromRoot(Subjects picture)
+        public bool DeleteFromRoot(SubjectForClass picture)
         {
             string root = _hostingEnvironment.WebRootPath;
 
@@ -268,6 +268,21 @@ namespace ElearningWebApp.API.Data
 
             }
 
+        }
+
+        Task<List<Subjects>> IPictureManager.Create(List<IFormFile> images, string folderName)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Subjects> IPictureManager.Create(IFormFile image, string folderName)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Subjects> IPictureManager.Update(SubjectForClass picture, IFormFile newPic, string folderName)
+        {
+            throw new NotImplementedException();
         }
 
 

@@ -14,8 +14,8 @@ namespace ELearningWebApp.API.Models
         public string Name { get; set; }
         public string ChapterName { get; set; }
         public int ChapterId { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
 
         public virtual Chapters Chapter { get; set; }
         public virtual ICollection<Videos> Videos { get; set; }

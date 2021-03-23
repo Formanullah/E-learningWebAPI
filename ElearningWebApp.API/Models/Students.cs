@@ -11,5 +11,7 @@ namespace ELearningWebApp.API.Models
         public string MobileNo { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }

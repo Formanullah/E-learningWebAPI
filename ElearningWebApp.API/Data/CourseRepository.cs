@@ -25,9 +25,9 @@ namespace ElearningWebApp.API.Data
             _context.Add(entity);
         }
 
-        public Subjects AddImage(IFormFile image, string folderName)
+        public SubjectForClass AddImage(IFormFile image, string folderName)
         {
-            var subject = new Subjects();
+            var subject = new SubjectForClass();
             string path, fileName;
 
             Save(image, folderName, out path, out fileName);
@@ -105,7 +105,7 @@ namespace ElearningWebApp.API.Data
             throw new System.NotImplementedException();
         }
 
-        public async Task<bool> IsExistSubject(string name)
+        public async Task<bool> IsExistSubjectName(string name)
         {
             if (await _context.Subjects.AnyAsync(x => x.Name == name))
                 return true;
@@ -118,5 +118,34 @@ namespace ElearningWebApp.API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public async Task<bool> IsExistSubjectNameInClass(int id, string name)
+        {
+            if (await _context.SubjectForClass.AnyAsync(x => x.SubjectName == name && x.ClassId ==id))
+                return true;
+
+            return false;
+        }
+
+        public async Task<bool> IsExistSubject(int subjectId)
+        {
+            if (await _context.Subjects.AnyAsync(x => x.Id == subjectId))
+                return true;
+
+            return false;
+        }
+
+        public async Task<bool> IsExistSubjectInClass(int classId, int subjectId)
+        {
+            if (await _context.SubjectForClass.AnyAsync(x => x.SubjectId == subjectId && x.ClassId ==classId))
+                return true;
+
+            return false;
+        }
+
+        public  async Task<Subjects> GetSubjectById(int subjectId)
+        {
+            var subject = await _context.Subjects.FindAsync(subjectId);
+            return subject;
+        }
     }
 }

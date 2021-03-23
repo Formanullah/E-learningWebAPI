@@ -8,8 +8,8 @@ namespace ELearningWebApp.API.Models
         public int Id { get; set; }
         public string FileName { get; set; }
         public bool Isfree { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
         public string ClassName { get; set; }
         public int SubjectForClassId { get; set; }
         public string SubjectName { get; set; }

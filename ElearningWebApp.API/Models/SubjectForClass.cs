@@ -15,8 +15,10 @@ namespace ELearningWebApp.API.Models
         public string SubjectName { get; set; }
         public int SubjectId { get; set; }
         public int ClassId { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
+        public string FileName { get; set; }
+        public string VirtualPath { get; set; }
 
         public virtual Class Class { get; set; }
         public virtual Subjects Subject { get; set; }
