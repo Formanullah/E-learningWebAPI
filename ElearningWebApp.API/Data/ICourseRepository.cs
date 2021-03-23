@@ -11,7 +11,6 @@ namespace ElearningWebApp.API.Data
          Task<bool> SaveAll();
          Task<Class> GetAllClasses();
          Task<Subjects> GetAllSubjects();
-         Task<SubjectForSyllabus> GetSubjectsBySyllabusId(int syllabusId);
          
          Task<Chapters> GetChapterBySubjectId(int subjectId);
          Task<Topics> GetTopicByChapterId(int ChapterId);
@@ -19,7 +18,6 @@ namespace ElearningWebApp.API.Data
 
          Task<Videos> GetVideoByTopicId(int topicId);
 
-         Task<Syllabus> GetSyllabus();
          Task<bool> IsExistSubject(string name);
 
         Subjects AddImage(IFormFile image, string folderName);

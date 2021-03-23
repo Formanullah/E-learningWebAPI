@@ -87,16 +87,6 @@ namespace ElearningWebApp.API.Data
             throw new System.NotImplementedException();
         }
 
-        public Task<SubjectForSyllabus> GetSubjectsBySyllabusId(int syllabusId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<Syllabus> GetSyllabus()
-
-        {
-            throw new System.NotImplementedException();
-        }
 
         public Task<Topics> GetTopicByChapterId(int ChapterId)
         {

@@ -7,15 +7,14 @@ namespace ELearningWebApp.API.Models
     {
         public Subjects()
         {
-            SubjectForSyllabus = new HashSet<SubjectForSyllabus>();
+            SubjectForClass = new HashSet<SubjectForClass>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public string AltAttribute { get; set; }
         public string FileName { get; set; }
         public string VirtualPath { get; set; }
 
-        public virtual ICollection<SubjectForSyllabus> SubjectForSyllabus { get; set; }
+        public virtual ICollection<SubjectForClass> SubjectForClass { get; set; }
     }
 }

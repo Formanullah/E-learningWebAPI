@@ -19,9 +19,8 @@ namespace ELearningWebApp.API.Models
         public virtual DbSet<Chapters> Chapters { get; set; }
         public virtual DbSet<Class> Class { get; set; }
         public virtual DbSet<Students> Students { get; set; }
-        public virtual DbSet<SubjectForSyllabus> SubjectForSyllabus { get; set; }
+        public virtual DbSet<SubjectForClass> SubjectForClass { get; set; }
         public virtual DbSet<Subjects> Subjects { get; set; }
-        public virtual DbSet<Syllabus> Syllabus { get; set; }
         public virtual DbSet<Topics> Topics { get; set; }
         public virtual DbSet<Videos> Videos { get; set; }
 
@@ -46,17 +45,18 @@ namespace ELearningWebApp.API.Models
 
             modelBuilder.Entity<Chapters>(entity =>
             {
-                entity.HasIndex(e => e.SubjectForSyllabusId);
+                entity.HasIndex(e => e.SubjectForClassId)
+                    .HasName("IX_Chapters_SubjectForSyllabusId");
 
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.SubjectName).IsRequired();
 
-                entity.HasOne(d => d.SubjectForSyllabus)
+                entity.HasOne(d => d.SubjectForClass)
                     .WithMany(p => p.Chapters)
-                    .HasForeignKey(d => d.SubjectForSyllabusId)
+                    .HasForeignKey(d => d.SubjectForClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Chapters_SubjectForSyllabus");
+                    .HasConstraintName("FK_Chapters_SubjectForClass");
             });
 
             modelBuilder.Entity<Students>(entity =>
@@ -72,53 +72,36 @@ namespace ELearningWebApp.API.Models
                 entity.Property(e => e.PasswordSalt).IsRequired();
             });
 
-            modelBuilder.Entity<SubjectForSyllabus>(entity =>
+            modelBuilder.Entity<SubjectForClass>(entity =>
             {
+                entity.HasIndex(e => e.ClassId)
+                    .HasName("IX_GetSubjectForSyllabus_SyllabusId");
+
                 entity.HasIndex(e => e.SubjectId)
                     .HasName("IX_GetSubjectForSyllabus_SubjectId");
 
-                entity.HasIndex(e => e.SyllabusId)
-                    .HasName("IX_GetSubjectForSyllabus_SyllabusId");
-
                 entity.Property(e => e.SubjectName).IsRequired();
 
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.SubjectForClass)
+                    .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SubjectForClass_Class");
+
                 entity.HasOne(d => d.Subject)
-                    .WithMany(p => p.SubjectForSyllabus)
+                    .WithMany(p => p.SubjectForClass)
                     .HasForeignKey(d => d.SubjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SubjectForSyllabus_Subjects");
-
-                entity.HasOne(d => d.Syllabus)
-                    .WithMany(p => p.SubjectForSyllabus)
-                    .HasForeignKey(d => d.SyllabusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SubjectForSyllabus_Syllabus");
             });
 
             modelBuilder.Entity<Subjects>(entity =>
             {
-                entity.Property(e => e.AltAttribute)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
                 entity.Property(e => e.FileName).IsRequired();
 
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.VirtualPath).IsRequired();
-            });
-
-            modelBuilder.Entity<Syllabus>(entity =>
-            {
-                entity.HasIndex(e => e.ClassId);
-
-                entity.Property(e => e.ClassName).IsRequired();
-
-                entity.HasOne(d => d.Class)
-                    .WithMany(p => p.Syllabus)
-                    .HasForeignKey(d => d.ClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Syllabus_Class");
             });
 
             modelBuilder.Entity<Topics>(entity =>
@@ -156,17 +139,17 @@ namespace ELearningWebApp.API.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Videos_Chapters");
 
-                entity.HasOne(d => d.SubjectForSyllabus)
+                entity.HasOne(d => d.Class)
                     .WithMany(p => p.Videos)
-                    .HasForeignKey(d => d.SubjectForSyllabusId)
+                    .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Videos_SubjectForSyllabus");
+                    .HasConstraintName("FK_Videos_Class");
 
-                entity.HasOne(d => d.Syllabus)
+                entity.HasOne(d => d.SubjectForClass)
                     .WithMany(p => p.Videos)
-                    .HasForeignKey(d => d.SyllabusId)
+                    .HasForeignKey(d => d.SubjectForClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Videos_Syllabus");
+                    .HasConstraintName("FK_Videos_SubjectForClass");
 
                 entity.HasOne(d => d.Topic)
                     .WithMany(p => p.Videos)
