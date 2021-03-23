@@ -52,6 +52,11 @@ namespace ELearningWebApp.API.Models
                 entity.HasIndex(e => e.SubjectForClassId)
                     .HasName("IX_Chapters_SubjectForSyllabusId");
 
+                entity.Property(e => e.ClassName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.Name).IsRequired();
@@ -91,6 +96,11 @@ namespace ELearningWebApp.API.Models
 
                 entity.HasIndex(e => e.SubjectId)
                     .HasName("IX_GetSubjectForSyllabus_SubjectId");
+
+                entity.Property(e => e.ClassName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
@@ -132,9 +142,19 @@ namespace ELearningWebApp.API.Models
 
                 entity.Property(e => e.ChapterName).IsRequired();
 
+                entity.Property(e => e.ClassName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.Name).IsRequired();
+
+                entity.Property(e => e.SubjctName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("date");
 

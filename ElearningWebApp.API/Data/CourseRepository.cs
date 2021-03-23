@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ELearningWebApp.API.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -73,9 +74,10 @@ namespace ElearningWebApp.API.Data
 
         }
 
-        public Task<Class> GetAllClasses()
+        public async Task<ICollection<Class>> GetAllClasses()
         {
-            throw new System.NotImplementedException();
+            var classes = await _context.Class.ToListAsync();
+            return classes;
         }
 
         public async Task<ICollection<Subjects>> GetAllSubjects()
@@ -84,9 +86,10 @@ namespace ElearningWebApp.API.Data
             return subjects;
         }
 
-        public Task<Chapters> GetChapterBySubjectId(int subjectId)
+        public async Task<ICollection<Chapters>> GetChaptersBySubjectId(int subjectForClassId)
         {
-            throw new System.NotImplementedException();
+            var chapters = await _context.Chapters.Where(c => c.SubjectForClassId == subjectForClassId).ToListAsync();
+            return chapters;
         }
 
 
@@ -146,6 +149,54 @@ namespace ElearningWebApp.API.Data
         {
             var subject = await _context.Subjects.FindAsync(subjectId);
             return subject;
+        }
+
+        public async Task<ICollection<SubjectForClass>> GetAllSubjectsFromClass(int classId)
+        {
+            var subjectsFromClass = await _context.SubjectForClass.Where(s => s.ClassId == classId).ToListAsync();
+            return subjectsFromClass;
+        }
+
+        public async Task<SubjectForClass> GetSubjectFromClass(int Id)
+        {
+            var subjectFromClass = await _context.SubjectForClass.FirstOrDefaultAsync(s => s.Id == Id);
+            return subjectFromClass;
+        }
+
+        public async Task<bool> IsExistClass(int id)
+        {
+            if (await _context.Class.AnyAsync(x => x.Id == id))
+                return true;
+
+            return false;
+        }
+
+        public async Task<bool> IsExistSubjectInClass(int id)
+        {
+            if (await _context.SubjectForClass.AnyAsync(x => x.Id == id))
+                return true;
+
+            return false;
+        }
+
+        public async Task<bool> IsExistChapter(int chapterId)
+        {
+            if (await _context.Chapters.AnyAsync(x => x.Id == chapterId))
+                return true;
+
+            return false;
+        }
+
+        public async Task<Chapters> GetChapter(int chapterId)
+        {
+            var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == chapterId);
+            return chapter;
+        }
+
+        public async Task<Class> GetClassById(int id)
+        {
+            var classFromClass = await _context.Class.FindAsync(id);
+            return classFromClass;
         }
     }
 }

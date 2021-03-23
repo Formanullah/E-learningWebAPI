@@ -19,6 +19,7 @@ namespace ELearningWebApp.API.Models
         public DateTime? UpdateDate { get; set; }
         public string FileName { get; set; }
         public string VirtualPath { get; set; }
+        public string ClassName { get; set; }
 
         public virtual Class Class { get; set; }
         public virtual Subjects Subject { get; set; }
