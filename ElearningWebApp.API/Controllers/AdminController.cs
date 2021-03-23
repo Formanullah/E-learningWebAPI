@@ -20,6 +20,7 @@ namespace ElearningWebApp.API.Controllers
 
         }
 
+        // api/Admin/AddSubject
         [HttpPost("AddSubject")]
         public async Task<IActionResult> AddSubject([FromForm] SubjectForCreationDto subjectForCreationDto)
         {
@@ -43,6 +44,15 @@ namespace ElearningWebApp.API.Controllers
             return BadRequest("Failed to add subject");
 
         }
+
+        [HttpGet("GetAllSubjects")]
+        public async Task<IActionResult> GetAllSubjects()
+        {
+            var subjects = await _repo.GetAllSubjects();
+            return Ok(subjects);
+        }
+
+
 
     }
 }

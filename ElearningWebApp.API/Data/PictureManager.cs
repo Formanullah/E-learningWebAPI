@@ -90,7 +90,7 @@ namespace ElearningWebApp.API.Data
                 {
                     await _context.SaveChangesAsync();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                     return null;
@@ -146,7 +146,7 @@ namespace ElearningWebApp.API.Data
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 return false;
             }
@@ -163,7 +163,7 @@ namespace ElearningWebApp.API.Data
                         File.Delete(fullPath);
                     }
 
-                    catch (IOException ex)
+                    catch (IOException)
                     {
                         Thread.Sleep(1000);
                         if (i == 2)
@@ -188,7 +188,7 @@ namespace ElearningWebApp.API.Data
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 return false;
             }
@@ -211,7 +211,7 @@ namespace ElearningWebApp.API.Data
                         File.Delete(root + pic.VirtualPath);
 
                     }
-                    catch (IOException ex)
+                    catch (IOException)
                     {
                         return false;
                     }
@@ -234,7 +234,7 @@ namespace ElearningWebApp.API.Data
                     File.Delete(root + picture.VirtualPath);
 
                 }
-                catch (IOException ex)
+                catch (IOException)
                 {
                     return false;
                 }

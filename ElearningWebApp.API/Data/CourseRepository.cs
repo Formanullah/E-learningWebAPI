@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using ELearningWebApp.API.Models;
@@ -77,9 +78,10 @@ namespace ElearningWebApp.API.Data
             throw new System.NotImplementedException();
         }
 
-        public Task<Subjects> GetAllSubjects()
+        public async Task<ICollection<Subjects>> GetAllSubjects()
         {
-            throw new System.NotImplementedException();
+            var subjects = await _context.Subjects.ToListAsync();
+            return subjects;
         }
 
         public Task<Chapters> GetChapterBySubjectId(int subjectId)
