@@ -93,9 +93,16 @@ namespace ElearningWebApp.API.Data
         }
 
 
-        public Task<Topics> GetTopicByChapterId(int ChapterId)
+        public async Task<ICollection<Topics>> GetAllTopicByChapterId(int chapterId)
         {
-            throw new System.NotImplementedException();
+            var topics = await _context.Topics.Where(t => t.ChapterId == chapterId).ToListAsync();
+            return topics;
+        }
+
+        public async Task<Topics> GetTopicsById(int topicId)
+        {
+            var topic = await _context.Topics.FindAsync(topicId);
+            return topic;
         }
 
         public Task<Videos> GetVideoByChapterId(int chapterId)
@@ -197,6 +204,16 @@ namespace ElearningWebApp.API.Data
         {
             var classFromClass = await _context.Class.FindAsync(id);
             return classFromClass;
+        }
+
+        public async Task<bool> IsExistTopic(int topicId)
+        {
+            if (await _context.Topics.AnyAsync(t => t.Id == topicId))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

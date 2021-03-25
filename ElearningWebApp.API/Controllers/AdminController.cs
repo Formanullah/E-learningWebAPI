@@ -203,6 +203,60 @@ namespace ElearningWebApp.API.Controllers
         }
 
 
+        [HttpPost("AddTopic")]
+        public async Task<IActionResult> AddTopic(TopicCreationDto topicCreationDto)
+        {
+            if(topicCreationDto == null)
+                return BadRequest();
+            
+            if(! await _repo.IsExistChapter(topicCreationDto.ChapterId))
+                return BadRequest("Chapter doesn't Exist");
+
+            var chapter = await _repo.GetChapter(topicCreationDto.ChapterId);
+
+            var topicToCreate = _mapper.Map<Topics>(topicCreationDto);
+            topicToCreate.ChapterName = chapter.Name;
+            topicToCreate.ClassName = chapter.ClassName;
+            topicToCreate.SubjctName = chapter.SubjectName;
+
+            _repo.Add<Topics>(topicToCreate);
+
+            if(await _repo.SaveAll())
+            {
+                return Ok("Topic add successfully");
+            }
+
+            return BadRequest("Failed to add topic");
+
+        }
+
+        [HttpGet("GetAllTopicsByChapterId/{chapterId}")]
+        public async Task<IActionResult> GetAllTopicsByChapterId(int chapterId)
+        {
+            if(! await _repo.IsExistChapter(chapterId))
+                return BadRequest("Chapter doesn't Exist");
+
+            var topics = await _repo.GetAllTopicByChapterId(chapterId);
+            return Ok(topics);
+        }
+
+        [HttpDelete("DeleteTopic/{topicId}")]
+        public async Task<IActionResult> DeleteTopic(int topicId)
+        {
+            if(! await _repo.IsExistTopic(topicId))
+                return BadRequest("Topic doesn't Exist");
+
+            var topic = await _repo.GetTopicsById(topicId);
+            _repo.Delete(topic);
+
+            if(await _repo.SaveAll())
+            {
+                return Ok("Topic Delete Successfully");
+            }
+            return BadRequest("Failed to Delete this topic");
+        }
+
+
 
     }
 }

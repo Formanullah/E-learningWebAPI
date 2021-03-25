@@ -20,7 +20,8 @@ namespace ElearningWebApp.API.Data
          
          Task<ICollection<Chapters>> GetChaptersBySubjectId(int subjectForClassId);
          Task<Chapters> GetChapter(int chapterId);
-         Task<Topics> GetTopicByChapterId(int ChapterId);
+         Task<ICollection<Topics>> GetAllTopicByChapterId(int chapterId);
+         Task<Topics> GetTopicsById(int topicId);
          Task<Videos> GetVideoByChapterId(int chapterId);
 
          Task<Videos> GetVideoByTopicId(int topicId);
@@ -32,6 +33,7 @@ namespace ElearningWebApp.API.Data
          Task<bool> IsExistSubjectInClass(int id);
          Task<bool> IsExistSubjectNameInClass(int id, string subjectName);
          Task<bool> IsExistChapter(int chapterId);
+         Task<bool> IsExistTopic(int topicId);
 
         SubjectForClass AddImage(IFormFile image, string folderName);
 
