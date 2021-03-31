@@ -2,21 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using ElearningWebApp.API.Data;
 using ELearningWebApp.API.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 /* using ElearningWebApp.API.Data; */
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ELearningWebApp.API
 {
@@ -33,16 +40,65 @@ namespace ELearningWebApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ElearningWebAppdbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
 
-            services.AddControllers();
+            /* IdentityBuilder builder = services.AddIdentityCore<Students>(opt => {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+            });
+
+            builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+            builder.AddEntityFrameworkStores<ElearningWebAppdbContext>();
+            builder.AddRoleValidator<RoleValidator<Role>>();
+            builder.AddRoleManager<RoleManager<Role>>();
+            builder.AddSignInManager<SignInManager<Role>>(); */
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
+            AddJwtBearer(options => {
+                options.TokenValidationParameters= new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                    .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+
+                };
+            });
+
+            services.AddMvc(/* opt => {
+                var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+
+                opt.Filters.Add( new AuthorizeFilter(policy));
+            } */)
+            /* .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .AddNewtonsoftJson(
+            options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            }) */;
+
+            services.AddControllers()
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .AddNewtonsoftJson(
+            options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             Mapper.Reset();
             services.AddAutoMapper();
             services.AddCors();
 
             services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
 
             services.AddSwaggerGen();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             /* services.AddSingleton<IFileProvider>(
             new PhysicalFileProvider(
                 Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))); */
@@ -57,6 +113,19 @@ namespace ELearningWebApp.API
             }
 
             app.UseHttpsRedirection();
+            app.UseSession();
+
+            //Add JWToken to all incoming HTTP Request Header
+            app.Use(async (context, next) =>
+            {
+                var JWToken = context.Session.GetString("token");
+                if (!string.IsNullOrEmpty(JWToken))
+                {
+                    context.Request.Headers.Add("Authorization", "Bearer " + JWToken);
+                }
+                await next();
+            });
+            
             app.UseStaticFiles();
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -70,7 +139,10 @@ namespace ELearningWebApp.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            
             app.UseAuthorization();
+            
 
             app.UseCors(x =>
             {

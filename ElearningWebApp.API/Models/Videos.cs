@@ -6,7 +6,7 @@ namespace ELearningWebApp.API.Models
     public partial class Videos
     {
         public int Id { get; set; }
-        public string FileName { get; set; }
+        public string Url { get; set; }
         public bool Isfree { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdateDate { get; set; }
@@ -18,6 +18,7 @@ namespace ELearningWebApp.API.Models
         public string TopicName { get; set; }
         public int TopicId { get; set; }
         public int ClassId { get; set; }
+        public string PublicId { get; set; }
 
         public virtual Chapters Chapter { get; set; }
         public virtual Class Class { get; set; }

@@ -13,5 +13,10 @@ namespace ELearningWebApp.API.Models
         public byte[] PasswordSalt { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public int RoleId { get; set; }
+        public int ClassId { get; set; }
+
+        public virtual Class Class { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

@@ -4,12 +4,14 @@ using AutoMapper;
 using ElearningWebApp.API.Data;
 using ElearningWebApp.API.Dtos;
 using ELearningWebApp.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElearningWebApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles= "Admin")]
     public class AdminController : ControllerBase
     {
         private readonly ICourseRepository _repo;
