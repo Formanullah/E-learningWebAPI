@@ -84,3 +84,5 @@ F:\BrotechIT\E-learning\ElearningWebApp.API\obj\Debug\netcoreapp3.1\staticwebass
 F:\BrotechIT\E-learning\ElearningWebApp.API\obj\Debug\netcoreapp3.1\ELearningWebApp.API.dll
 F:\BrotechIT\E-learning\ElearningWebApp.API\obj\Debug\netcoreapp3.1\ELearningWebApp.API.pdb
 F:\BrotechIT\E-learning\ElearningWebApp.API\obj\Debug\netcoreapp3.1\ELearningWebApp.API.genruntimeconfig.cache
+F:\BrotechIT\E-learning\ElearningWebApp.API\bin\Debug\netcoreapp3.1\Microsoft.Extensions.WebEncoders.dll
+F:\BrotechIT\E-learning\ElearningWebApp.API\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll

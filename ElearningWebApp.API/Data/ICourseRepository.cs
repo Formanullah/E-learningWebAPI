@@ -37,6 +37,9 @@ namespace ElearningWebApp.API.Data
 
         SubjectForClass AddImage(IFormFile image, string folderName);
 
+        Task<Videos> GetVideo(int id);
+        bool DeleteFromRoot(string virtualPath);
+
 
     }
 }

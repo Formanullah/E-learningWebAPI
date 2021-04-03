@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using ElearningWebApp.API.Data;
+using ELearningWebApp.API.Helpers;
 using ELearningWebApp.API.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -99,6 +100,11 @@ namespace ELearningWebApp.API
             services.AddSwaggerGen();
             services.AddDistributedMemoryCache();
             services.AddSession();
+
+            // Cloudinay
+
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            
             /* services.AddSingleton<IFileProvider>(
             new PhysicalFileProvider(
                 Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))); */
@@ -136,6 +142,12 @@ namespace ELearningWebApp.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "E-Learning");
             });
+            
+            app.UseCors(x =>
+            {
+                x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders("Pagination");
+
+            });
 
             app.UseRouting();
 
@@ -144,11 +156,6 @@ namespace ELearningWebApp.API
             app.UseAuthorization();
             
 
-            app.UseCors(x =>
-            {
-                x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders("Pagination");
-
-            });
 
             app.UseEndpoints(endpoints =>
             {

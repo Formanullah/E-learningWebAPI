@@ -13,6 +13,7 @@ namespace ELearningWebApp.API.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
 
         public virtual ICollection<SubjectForClass> SubjectForClass { get; set; }
     }

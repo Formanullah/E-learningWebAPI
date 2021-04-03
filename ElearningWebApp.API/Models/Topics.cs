@@ -18,8 +18,12 @@ namespace ELearningWebApp.API.Models
         public DateTime? UpdateDate { get; set; }
         public string SubjctName { get; set; }
         public string ClassName { get; set; }
+        public int SubjectIdInClass { get; set; }
+        public int ClassId { get; set; }
 
         public virtual Chapters Chapter { get; set; }
+        public virtual Class Class { get; set; }
+        public virtual SubjectForClass SubjectIdInClassNavigation { get; set; }
         public virtual ICollection<Videos> Videos { get; set; }
     }
 }

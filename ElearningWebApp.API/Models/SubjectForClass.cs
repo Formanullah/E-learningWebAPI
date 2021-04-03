@@ -8,6 +8,7 @@ namespace ELearningWebApp.API.Models
         public SubjectForClass()
         {
             Chapters = new HashSet<Chapters>();
+            Topics = new HashSet<Topics>();
             Videos = new HashSet<Videos>();
         }
 
@@ -24,6 +25,7 @@ namespace ELearningWebApp.API.Models
         public virtual Class Class { get; set; }
         public virtual Subjects Subject { get; set; }
         public virtual ICollection<Chapters> Chapters { get; set; }
+        public virtual ICollection<Topics> Topics { get; set; }
         public virtual ICollection<Videos> Videos { get; set; }
     }
 }

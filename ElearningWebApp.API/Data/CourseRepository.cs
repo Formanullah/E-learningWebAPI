@@ -68,6 +68,30 @@ namespace ElearningWebApp.API.Data
 
         }
 
+
+        public bool DeleteFromRoot(string virtualPath)
+        {
+            string root = _hostingEnvironment.WebRootPath;
+
+            // Check if file exists with its full path  
+            if (File.Exists(root + virtualPath))
+            {
+                try
+                {
+                    // If file found, delete it    
+                    File.Delete(root + virtualPath);
+
+                }
+                catch (IOException)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
+        }
+
         public void Delete<T>(T entity) where T : class
         {
             _context.Remove(entity);
@@ -215,5 +239,16 @@ namespace ElearningWebApp.API.Data
 
             return false;
         }
+
+        public async Task<Videos> GetVideo(int id)
+        {
+            if (await _context.Topics.AnyAsync(v => v.Id == id))
+            {
+                return await _context.Videos.FirstOrDefaultAsync(v => v.Id == id);
+            }
+
+            return null;
+        }
+
     }
 }

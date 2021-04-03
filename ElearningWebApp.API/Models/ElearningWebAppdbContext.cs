@@ -78,6 +78,12 @@ namespace ELearningWebApp.API.Models
 
                 entity.Property(e => e.UpdateDate).HasColumnType("date");
 
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.Chapters)
+                    .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Chapters_Class");
+
                 entity.HasOne(d => d.SubjectForClass)
                     .WithMany(p => p.Chapters)
                     .HasForeignKey(d => d.SubjectForClassId)
@@ -182,6 +188,8 @@ namespace ELearningWebApp.API.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .IsUnicode(false);
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
             });
 
             modelBuilder.Entity<Topics>(entity =>
@@ -215,6 +223,18 @@ namespace ELearningWebApp.API.Models
                     .HasForeignKey(d => d.ChapterId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Topics_Chapters");
+
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.Topics)
+                    .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Topics_Class");
+
+                entity.HasOne(d => d.SubjectIdInClassNavigation)
+                    .WithMany(p => p.Topics)
+                    .HasForeignKey(d => d.SubjectIdInClass)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Topics_SubjectForClass");
             });
 
             modelBuilder.Entity<Videos>(entity =>
