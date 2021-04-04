@@ -96,6 +96,7 @@ namespace ELearningWebApp.API
 
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddSwaggerGen();
             services.AddDistributedMemoryCache();

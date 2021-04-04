@@ -7,8 +7,11 @@ namespace ElearningWebApp.API.Dtos
     {
         [Required]
         public string Name { get; set; }
+        [Required]
         public int ClassId { get; set; }
+        [Required]
         public string MobileNo { get; set; }
+        [Required]
         public string Password { get; set; }
         public DateTime? CreatedDate { get; set; }
         public StudentForRegisterDto()

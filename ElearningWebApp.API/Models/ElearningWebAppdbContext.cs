@@ -93,7 +93,9 @@ namespace ELearningWebApp.API.Models
 
             modelBuilder.Entity<Class>(entity =>
             {
-                entity.Property(e => e.Name).IsUnicode(false);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Role>(entity =>
