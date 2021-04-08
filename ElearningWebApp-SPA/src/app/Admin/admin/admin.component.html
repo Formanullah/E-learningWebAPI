@@ -1,0 +1,61 @@
+<div class=" bg-light">
+    <nav class="navbar navbar-expand-lg pb-3 " id="top">
+      <a class="navbar-brand mt-3 ml-3" [routerLink]="['./dashboard']"><b style="font-size: 30px;"> COURSES</b></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+
+          <li class="nav-item active">
+            <a class="nav-item nav-link" [routerLink]="['./dashboard']"></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+<div class="row col-md-12">
+    <div class="col-md-2">
+        <div class="nav flex-column nav-pills bg-light " id="v-pills-tab" role="tablist" aria-orientation="vertical"
+          style="height: 133%">
+          <a class="nav-link active " id="v-pills-dash-tab" data-toggle="pill" [routerLink]="['./dashboard']" role="tab"
+            aria-controls="v-pills-dash" aria-selected="true" style="background-color: #f8f9fa;">
+  
+            <h4><b style="color:blue;padding-left: 3%;">Dashboard</b></h4><br>
+          </a>
+          <h5 style="color: blue;margin-left: 12%;"><i class="fa fa-image " style="color:blue"></i>&nbsp;Banner</h5>
+          <a class="nav-link ml-4 " id="v-pills-home1-tab" data-toggle="pill" [routerLink]="['./banner']" role="tab"
+            aria-controls="v-pills-home1" aria-selected="false" style="color: black;">Carousel Banner</a>
+  
+          <br>
+          <h5 style="color: blue;margin-left: 12%;"><i class="fa fa-list " style="color: blue;"></i>&nbsp;Category</h5>
+          <a class="nav-link ml-4" id="v-pills-classes-tab" data-toggle="pill" [routerLink]="['./class']" role="tab"
+            aria-controls="v-pills-classes" aria-selected="false" style="color: black;">Classes</a>
+          <a class="nav-link  ml-4" id="v-pills-subject-tab" data-toggle="pill" [routerLink]="['./subject']" role="tab"
+            aria-controls="v-pills-subject" aria-selected="false" style="color: black;">Subjects</a>
+          <a class="nav-link  ml-4" id="v-pills-subforclass-tab" data-toggle="pill" [routerLink]="['./subjectsforclass']" role="tab"
+            aria-controls="v-pills-subforclass" aria-selected="false" style="color: black;">Class Base Subjects</a>
+          <a class="nav-link  ml-4" id="v-pills-chapter-tab" data-toggle="pill" [routerLink]="['./chapter']" role="tab"
+            aria-controls="v-pills-chapter" aria-selected="false" style="color: black;">Chapters</a>
+          <a class="nav-link  ml-4" id="v-pills-topic-tab" data-toggle="pill" [routerLink]="['./topic']" role="tab"
+            aria-controls="v-pills-topic" aria-selected="false" style="color: black;">Topics</a>
+          <a class="nav-link  ml-4" id="v-pills-video-tab" data-toggle="pill" [routerLink]="['./video']" role="tab"
+            aria-controls="v-pills-video" aria-selected="false" style="color: black;">Videos</a>
+          <br>
+          <h5 style="color: blue;margin-left: 12%;"><i class="fa fa-lock " style="color: blue;"></i>&nbsp;Security</h5>
+          <a class="nav-link  ml-4" id="v-pills-login-tab" data-toggle="pill" [routerLink]="['./admin-login']" role="tab"
+            aria-controls="v-pills-login" aria-selected="false" style="color: black;">Log In</a>
+  
+        </div>
+      </div>
+
+
+<div class="col-md-8">
+
+    <router-outlet></router-outlet>
+</div>
+
+
+</div>
