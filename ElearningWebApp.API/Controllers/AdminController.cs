@@ -231,12 +231,60 @@ namespace ElearningWebApp.API.Controllers
             return BadRequest("Failed to Delete this subject from class");
         }
 
+        [HttpPost("AddClass")]
+        public async Task<IActionResult> AddClass(ClassCreationDto classs)
+        {
+            if(classs.Name != null)
+            {
+                var createdClass = _mapper.Map<Class>(classs);
+                _repo.Add<Class>(createdClass);
+            }
+            
+            if (await _repo.SaveAll())
+            {
+                return Ok("Class added successfully");
+            }
+
+            return BadRequest("Failed to add class");
+        }
 
         [HttpGet("GetAllClass")]
         public async Task<IActionResult> GetAllClass()
         {
             var classes = await _repo.GetAllClasses();
             return Ok(classes);
+        }
+
+        [HttpPut("UpdateClass")]
+        public async Task<IActionResult> UpdateClass(ClassCreationDto updatedCLass)
+        {
+            if(! await _repo.IsExistClass(updatedCLass.Id))
+                return BadRequest("Class doesn't Exist");
+
+            var classFromRepo = await _repo.GetClassById(updatedCLass.Id);
+            classFromRepo.Name = updatedCLass.Name;
+
+             if(await _repo.SaveAll())
+                return Ok();
+
+            throw new Exception($"Updating class {updatedCLass.Id} failed on save");
+        }
+
+        [HttpDelete("DeleteClass/{classid}")]
+        public async Task<IActionResult> DeleteClass(int classid)
+        {
+            if(! await _repo.IsExistClass(classid))
+                return BadRequest("Class doesn't Exist");
+
+            var classFromRepo = await _repo.GetClassById(classid);
+
+            _repo.Delete(classFromRepo); 
+
+            if (await _repo.SaveAll())
+            {
+                return Ok("Class Delete Successfully");
+            }
+            return BadRequest("Failed to Delete this Class");
         }
 
         [HttpPost("AddChapter")]

@@ -1,4 +1,3 @@
-import { VideoFormComponent } from './../../../../../ELearning-SPA/src/app/admin/video/video-form/video-form.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
@@ -12,6 +11,8 @@ import { BannerComponent } from '../banner/banner.component';
 import { SubjectComponent } from '../subject/subject.component';
 import { SubjectsForClassComponent } from '../subjects-for-class/subjects-for-class.component';
 import { TopicComponent } from '../topic/topic.component';
+import { VideoComponent } from '../video/video.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,13 +25,15 @@ import { TopicComponent } from '../topic/topic.component';
     SubjectComponent,
     SubjectsForClassComponent,
     TopicComponent,
-    VideoFormComponent
+    VideoComponent
   ],
 
   imports: [
     RouterModule,
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: []
 })

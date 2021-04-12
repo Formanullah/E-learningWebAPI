@@ -16,7 +16,7 @@ import { NoticeComponent } from './notice/notice.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SubjectsComponent } from './class/subjects/subjects.component';
 import { SubjectDetailsComponent } from './class/subject-details/subject-details.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @NgModule({
@@ -37,6 +37,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     CommonModule,
     FrontEndRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     SlickCarouselModule
   ],
   providers: []

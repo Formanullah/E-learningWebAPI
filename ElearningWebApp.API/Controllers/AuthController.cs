@@ -72,7 +72,7 @@ namespace ElearningWebApp.API.Controllers
 
             return CreatedAtRoute("GetUser", new{Controller = "Users", id =userToCreate.Id}, userToReturn); */
 
-            return Ok(createdUser);
+            return Ok();
         }
 
         [HttpPost("login")]
