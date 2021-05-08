@@ -20,8 +20,12 @@ namespace ElearningWebApp.API.Data
          
          Task<ICollection<Chapters>> GetChaptersBySubjectId(int subjectForClassId);
          Task<Chapters> GetChapter(int chapterId);
+         Task<ICollection<Chapters>> GetAllChapters();
          Task<ICollection<Topics>> GetAllTopicByChapterId(int chapterId);
          Task<Topics> GetTopicsById(int topicId);
+         Task<ICollection<Topics>> GetAllTopics();
+         Task<ICollection<Videos>> GetAllVideos();
+
          Task<Videos> GetVideoByChapterId(int chapterId);
 
          Task<Videos> GetVideoByTopicId(int topicId);
@@ -29,6 +33,7 @@ namespace ElearningWebApp.API.Data
         Task<bool> IsExistClass(int id);
          Task<bool> IsExistSubject(int subjectId);
          Task<bool> IsExistSubjectName(string subjectName);
+         Task<bool> IsExistClassName(string classname);
          Task<bool> IsExistSubjectInClass(int classId, int subjectId);
          Task<bool> IsExistSubjectInClass(int id);
          Task<bool> IsExistSubjectNameInClass(int id, string subjectName);

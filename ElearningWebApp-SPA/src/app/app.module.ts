@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AlertifyService } from './_services/alertify.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { AppComponent } from './app.component';
     ReactiveFormsModule
 
   ],
-  providers: [],
+  providers: [AlertifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

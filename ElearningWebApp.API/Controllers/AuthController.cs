@@ -84,13 +84,16 @@ namespace ElearningWebApp.API.Controllers
                 return Unauthorized();
 
            
-           GenerateToken(userFromRepo.Name, userFromRepo.Role.RoleName);
-            // var user = _mapper.Map<UserForListDto>(userFromRepo);
+           var token = GenerateToken(userFromRepo.Name, userFromRepo.Role.RoleName);
+            var user = _mapper.Map<StudentForReturnDto>(userFromRepo);
 
-            return Ok(userFromRepo);
+            return Ok(new {
+                token,
+                user
+            });
         }
 
-        private void GenerateToken(string name, string role)
+        private string GenerateToken(string name, string role)
         {
              var claims = new[]
             {
@@ -111,10 +114,12 @@ namespace ElearningWebApp.API.Controllers
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var a = tokenHandler.WriteToken(token);
+            var tokenToCreate = tokenHandler.CreateToken(tokenDescriptor);
+            
+            var token = tokenHandler.WriteToken(tokenToCreate);
 
-            HttpContext.Session.SetString("token",a);
+            HttpContext.Session.SetString("token",token);
+            return token;
         }
 
         [HttpPost("AddAdmin")]
@@ -134,7 +139,7 @@ namespace ElearningWebApp.API.Controllers
 
             return CreatedAtRoute("GetUser", new{Controller = "Users", id =userToCreate.Id}, userToReturn); */
 
-            return Ok(createdAdmin);
+            return Ok();
 
             
         }
@@ -148,10 +153,13 @@ namespace ElearningWebApp.API.Controllers
                 return Unauthorized();
 
            
-           GenerateToken(adminFromRepo.Name, adminFromRepo.Role.RoleName);
-            // var user = _mapper.Map<UserForListDto>(userFromRepo);
+            var token = GenerateToken(adminFromRepo.Name, adminFromRepo.Role.RoleName);
+            var user = _mapper.Map<AdminForReturnDto>(adminFromRepo);
 
-            return Ok(adminFromRepo);
+            return Ok(new {
+                token,
+                user
+            });
         }
     }
 }

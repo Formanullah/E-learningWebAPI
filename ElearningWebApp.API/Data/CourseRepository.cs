@@ -147,6 +147,15 @@ namespace ElearningWebApp.API.Data
             return false;
         }
 
+        public async Task<bool> IsExistClassName(string name)
+        {
+            if (await _context.Class.AnyAsync(x => x.Name == name))
+                return true;
+
+            return false;
+        }
+
+
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
@@ -242,7 +251,7 @@ namespace ElearningWebApp.API.Data
 
         public async Task<Videos> GetVideo(int id)
         {
-            if (await _context.Topics.AnyAsync(v => v.Id == id))
+            if (await _context.Videos.AnyAsync(v => v.Id == id))
             {
                 return await _context.Videos.FirstOrDefaultAsync(v => v.Id == id);
             }
@@ -250,5 +259,22 @@ namespace ElearningWebApp.API.Data
             return null;
         }
 
+        public async Task<ICollection<Chapters>> GetAllChapters()
+        {
+            var chapters = await _context.Chapters.ToListAsync();
+            return chapters;
+        }
+
+        public async Task<ICollection<Topics>> GetAllTopics()
+        {
+            var topics = await _context.Topics.ToListAsync();
+            return topics;
+        }
+
+        public async Task<ICollection<Videos>> GetAllVideos()
+        {
+            var videos = await _context.Videos.ToListAsync();
+            return videos;
+        }
     }
 }

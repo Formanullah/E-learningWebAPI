@@ -6,3 +6,6 @@
 @import "./assets/css/slick-theme.css"; */
 /* @import "./assets/admin/dist/css/c3.css";
 @import "./assets/admin/dist/css/style.css"; */
+
+@import"../node_modules/alertifyjs/build/css/alertify.min.css";
+@import"../node_modules/alertifyjs/build/css/themes/bootstrap.min.css";

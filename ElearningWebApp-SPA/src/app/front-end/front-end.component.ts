@@ -9,7 +9,7 @@ export class FrontEndComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

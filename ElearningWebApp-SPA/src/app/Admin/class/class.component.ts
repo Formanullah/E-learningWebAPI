@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Class } from 'src/app/_models/class';
 import { AdminService } from 'src/app/_services/admin.service';
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
   selector: 'app-class',
@@ -9,9 +10,12 @@ import { AdminService } from 'src/app/_services/admin.service';
 })
 export class ClassComponent implements OnInit {
   classes: Class[] = [];
-  class: any;
+  class: Class = {
+    id: 0,
+    name: ''
+  };
 
-  constructor(private Auth: AdminService) { }
+  constructor(private Auth: AdminService,  private alertify: AlertifyService) { }
 
   ngOnInit(): void {
     this.getAllClasses();
@@ -21,15 +25,28 @@ export class ClassComponent implements OnInit {
     this.Auth.getClasses().subscribe( res => {
       this.classes = res;
     }, error => {
-      console.log('Problem in retrive class');
+      this.alertify.error('Problem in retrive class');
     });
   }
 
-  createClass(): void {
-    this.Auth.createClass(this.class).subscribe( res => {
-      console.log(res);
+  // tslint:disable-next-line:typedef
+  createClass() {
+    console.log(this.class);
+    this.Auth.create( 'AddClass', this.class).subscribe( res => {
+      this.alertify.success('Class addes successfully');
     }, error => {
-      console.log(error);
+      this.alertify.error(error.error.text);
+      this.getAllClasses();
+    });
+  }
+
+  // tslint:disable-next-line:typedef
+  deleteClass(id: any) {
+    this.Auth.delete('DeleteClass/', id).subscribe( res => {
+      this.alertify.success('Class deleted successfully');
+    }, error => {
+      this.alertify.error(error.error.text);
+      this.getAllClasses();
     });
   }
 

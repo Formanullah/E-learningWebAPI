@@ -11,12 +11,13 @@
  <div class="main2">
          <div class="col-md-6 col-sm-6 col-6 profiletext mt-5">
              <img src="../../../assets/img/banner1.jpg">
-             <h5>Student Name</h5>
-             <h5 class="h5">Class Name</h5>
-             <h5 class="h5">Number</h5>
+             <h5>{{user.name}}</h5>
+             <h5 class="h5">Class {{user.className}}</h5>
+             <h5 class="h5">{{user.mobileNo}}</h5>
 
              <ul>
                  <li><a href="#">Sign in</a></li>
+                 <li><a [routerLink]="['/subjects/', user.classId]" >Subjects</a></li>
                  <li><a href="#">Success Story</a></li>
                  <li><a href="#">Review</a></li>
                  <li><a href="#">Media Coverage</a></li>
@@ -25,7 +26,7 @@
                  <li><a href="#">Live Chat</a></li>
                  <li><a href="#">Contact Us</a></li>
                  <li><a href="#">Share The App</a></li>
-                 <li><a href="#">Noticeboard</a></li>
+                 <li><a [routerLink]="['/notice']" >Noticeboard</a></li>
                  <li><a href="#">Topper Of The Week</a></li>
                  <li><a href="#">Terms And Conditions</a></li>
                  <li><a href="#">Log Out</a></li><br>

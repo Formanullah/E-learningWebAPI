@@ -2,36 +2,41 @@
   <div class="row col-md-12 mt-5" style="margin-left: 8%;">
     <div class="col-md-5">
       <h5 style="margin-left: 10%;color: darkred;font-size: 30px;">Add Class Base Subjects</h5>
-      <form>
+      <form #AddSubjectForClass="ngForm" (ngSubmit)="addSubjectInClass()">
         <div class="form-row col-md-12">
           <div class=" col-md-10">
             <div class="form-group ">
               <label for="exampleFormControlSelect1">Class</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>class one</option>
-                <option>class two</option>
-                <option>class three</option>
+              <select name="ClassId" [(ngModel)]="subjectForClass.ClassId" required
+              (change)="getSubjectByClassId(selectedClass.value)" #selectedClass 
+              class="form-control" id="exampleFormControlSelect1">
+              
+                <option disabled>Select a class</option>
+                <option *ngFor="let class of classes" [value]="class.id">{{class.name}}</option>
 
               </select>
             </div>
             <div class="form-group ">
-              <label for="exampleFormControlSelect1">Subject</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>Bangla</option>
-                <option>English</option>
-                <option>Math</option>
+              <label for="exampleFormControlSelect2">Subject</label>
+              <select name="ClassId" [(ngModel)]="subjectForClass.SubjectId" 
+              class="form-control" id="exampleFormControlSelect2" required>
+                <option *ngFor="let sub of subjects" [value]="sub.id">{{sub.name}}</option>
 
               </select>
             </div>
+            <div class="form-group">
+              <label for="input-banner-img">Picture</label>
+              <input (change)="handleFileInput($event)" accept="image/*" required type="file" class="form-control-file" >
+            </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button [disabled]="! AddSubjectForClass.valid" type="submit" class="btn btn-primary">Submit</button>
           </div>
 
         </div>
 
       </form>
     </div>
-    <div class=" col-md-6">
+    <div class=" col-md-7">
       <h5 style="text-align: center;color: darkred;font-size: 30px;">Table of class Based Subjects</h5>
 
       <table class="table table-bordered mt-5">
@@ -39,31 +44,69 @@
           <tr>
             <th>Classes</th>
             <th>Subjects</th>
+            <th>Picture</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody style=" text-align: center;">
 
-          <tr>
-            <td>Class One</td>
-            <td>Bangla</td>
+          <tr *ngFor="let subjectInClass of subjectsforclass">
+            <td>{{subjectInClass.className}}</td>
+            <td>{{subjectInClass.subjectName}}</td>
+            <td><img src="{{imageDirectoryPath + subjectInClass.fileName}}" width="100" alt="subject image"></td>
             <td>
-              <button type="button" class="btn btn-danger " data-toggle="modal"
-                data-target="#staticBackdroppost">Update</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Class Three</td>
-            <td>Math</td>
-            <td>
-              <button type="button" class="btn btn-danger " data-toggle="modal"
-                data-target="#staticBackdroppost">Update</button>
+              <button type="button" class="btn btn-success " data-toggle="modal" data-target="#staticBackdroppost2">Update</button>
+              <button (click)="deleteSubjectInClass(subjectInClass.id)" type="button" class="btn btn-danger " data-toggle="modal"
+                data-target="#staticBackdroppost">Delete</button>
             </td>
           </tr>
 
         </tbody>
       </table>
     </div>
+
+    <div class="modal fade" id="staticBackdroppost2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="staticBackdropLabel" style="padding-left: 20%;">Update Class Base Subjects</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-row col-md-12">
+                <div class=" col-md-10">
+                    <div class="form-group ">
+                        <label for="exampleFormControlSelect1">Class</label>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                          <option>class one</option>
+                          <option>class two</option>
+                          <option>class three</option>
+                        
+                        </select>
+                      </div>
+                      <div class="form-group ">
+                        <label for="exampleFormControlSelect1">Subject</label>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                          <option>Bangla</option>
+                          <option>English</option>
+                          <option>Math</option>
+                        
+                        </select>
+                      </div>
+                  
+                    <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+      
+      </div>
+          
+          </form> 
+          </div>
+        </div>
+      </div>
+    </div>
+
+        
 
   </div>
 

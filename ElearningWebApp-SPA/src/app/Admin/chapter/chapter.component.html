@@ -1,44 +1,128 @@
 <section>
-  <div class="row col-md-12 mt-5" style="margin-left: 8%;">
-    <div class="col-md-8">
-      <h5 style="margin-left: 45%;color: darkred;font-size: 30px;">Add Chapters</h5>
-      <form>
-        <div class="form-row col-md-12">
-          <div class=" col-md-8 " style="margin-left: 30%;">
-            <div class="form-group ">
-              <label for="exampleFormControlSelect1">Class</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>class one</option>
-                <option>class two</option>
-                <option>class three</option>
-
-              </select>
+              <div class="row col-md-12 mt-5" style="margin-left: 8%;">
+                <div class="col-md-5">
+                  <h5 style="margin-left: 45%;color: darkred;font-size: 30px;">Add Chapters</h5>
+                  <form #AddChapterForm="ngForm" (ngSubmit)="addChapter()">
+                    <div class="form-row col-md-12">
+                      <div class=" col-md-8 " style="margin-left: 30%;">
+                        <div class="form-group ">
+                          <label for="exampleFormControlSelect1">Class</label>
+                          <select name="ClassId" 
+                          (change)="getSubjectByClassId(selectedClass.value)" #selectedClass 
+                           class="form-control" id="exampleFormControlSelect1">
+                           <option >Select a class</option>
+                          <option *ngFor="let class of classes" [value]="class.id">{{class.name}}</option>
+                           
+                          </select>
+                        </div>
+                        <div class="form-group ">
+                          <label for="exampleFormControlSelect2">Subject</label>
+                          <select name="subjectForClassId" [(ngModel)]="chapter.subjectForClassId" required
+                          (change)="getChapterBySubjectForClassId(selectedSubject.value)" #selectedSubject
+                           class="form-control" id="exampleFormControlSelect2">
+                           <option *ngFor="let sub of subjectsforclass" [value]="sub.id">{{sub.subjectName}}</option>
+                            
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="input-title">Chapter Name</label>
+                          <input
+                                  type="text"
+                                  class="form-control"
+                                  name="name"
+                                  [(ngModel)]="chapter.name"
+                                  required
+                                  placeholder="Enter Name">
+        
+                      </div>
+                         
+                          <button [disabled]="! AddChapterForm.valid" type="submit" class="btn btn-primary">Submit</button>
+                     </div>
+            
             </div>
-            <div class="form-group ">
-              <label for="exampleFormControlSelect1">Subject</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>Bangla</option>
-                <option>English</option>
-                <option>Math</option>
+                
+                </form> 
+                </div>
+                <div class="col-md-7">
+                  <h5 style="text-align: center;color: darkred;font-size: 30px;">Table of  Chapters</h5>
+                    
+                        <table class="table table-bordered mt-5">
+                            <thead style="background-color:rgb(0, 140, 255); text-align: center;">
+                              <tr>
+                                <th>Classes</th>
+                                <th>Subjects</th>
+                                <th>Chapter Name</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+                            <tbody style=" text-align: center;">
+                            
+                              <tr *ngFor="let chapter of chapters">
+                                <td>{{chapter.className}}</td>
+                                <td>{{chapter.subjectName}}</td>
+                                <td>{{chapter.name}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-success " data-toggle="modal" data-target="#staticBackdroppost3">Update</button>
+                                    <button (click)="deleteChapter(chapter.id)" type="button" class="btn btn-danger ml-1" >Delete</button> </td>
+                              </tr>
+                              
+                            </tbody>
+                          </table>
+                    </div>
 
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="input-title">Name</label>
-              <input type="text" class="form-control" id="input-title" name="title" value=""
-                aria-describedby="titleHelp" placeholder="Enter title">
-
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-
-        </div>
-
-      </form>
-    </div>
-
-
-  </div>
-
-</section>
+                    <div class="modal fade" id="staticBackdroppost3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title" id="staticBackdropLabel" style="padding-left: 30%;">Update Chapter</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                          <div class="modal-body">
+                            <form>
+                              <div class="form-row col-md-12">
+                                <div class=" col-md-5 " style="margin-left: 30%;">
+                                    <div class="form-group ">
+                                        <label for="exampleFormControlSelect1">Class</label>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                          <option>class one</option>
+                                          <option>class two</option>
+                                          <option>class three</option>
+                                         
+                                        </select>
+                                      </div>
+                                      <div class="form-group ">
+                                        <label for="exampleFormControlSelect1">Subject</label>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                          <option>Bangla</option>
+                                          <option>English</option>
+                                          <option>Math</option>
+                                         
+                                        </select>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="input-title">Chapter Name</label>
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                id="input-title"
+                                                name="title"
+                                                value=""
+                                                aria-describedby="titleHelp"
+                                                placeholder="Enter title">
+                      
+                                    </div>
+                                   
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                               </div>
+                      
+                      </div>
+                          
+                          </form> 
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            
+                  </div>
+            
+            </section>

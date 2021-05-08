@@ -32,6 +32,17 @@ namespace ElearningWebApp.API.Controllers
             var classes = await _repo.GetAllClasses();
             return Ok(classes);
         }
+
+        [HttpGet("GetVideos/{id}")]
+        public async Task<IActionResult> GetVideos(int id)
+        {
+            if(! await _repo.IsExistSubject(id))
+                return BadRequest("Subject Doesn't exist");
+
+            var videos = await _repo.GetVideoBySubjectId(id);
+            return Ok(videos);
+        }
+
         
     }
 }

@@ -45,14 +45,17 @@
             aria-controls="v-pills-video" aria-selected="false" style="color: black;">Videos</a>
           <br>
           <h5 style="color: blue;margin-left: 12%;"><i class="fa fa-lock " style="color: blue;"></i>&nbsp;Security</h5>
-          <a class="nav-link  ml-4" id="v-pills-login-tab" data-toggle="pill" [routerLink]="['./admin-login']" role="tab"
-            aria-controls="v-pills-login" aria-selected="false" style="color: black;">Log In</a>
+          <a class="nav-link  ml-4" id="v-pills-login-tab" data-toggle="pill" href="#" (click)="logout()" role="tab"
+            aria-controls="v-pills-login" aria-selected="false" style="color: black;">Log Out</a>
+          
+            <a class="nav-link  ml-4" id="v-pills-login-tab" data-toggle="pill" [routerLink]="['./register']" role="tab"
+            aria-controls="v-pills-login" aria-selected="false" style="color: black;">Add New Admin</a>
   
         </div>
       </div>
 
 
-<div class="col-md-8">
+<div class="col-md-9">
 
     <router-outlet></router-outlet>
 </div>

@@ -1,4 +1,7 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'src/app/_models/subject';
+import { Subjectforclass } from 'src/app/_models/subjectforclass';
 
 @Component({
   selector: 'app-subjects',
@@ -6,10 +9,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./subjects.component.css']
 })
 export class SubjectsComponent implements OnInit {
+  subjects: Subjectforclass[] = [];
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.route.data.subscribe( data => {
+      // tslint:disable-next-line:no-string-literal
+      this.subjects = data['subjects'];
+      console.log(this.subjects);
+    });
   }
 
 }

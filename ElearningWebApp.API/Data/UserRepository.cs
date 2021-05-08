@@ -30,8 +30,8 @@ namespace ElearningWebApp.API.Data
 
         public async Task<ICollection<Chapters>> GetChaptersBySubjectId(int subjectForClassId)
         {
-            var chapters = await _context.Chapters.Include(t => t.Topics)
-            .ThenInclude(v => v.Videos).Where(c => c.SubjectForClassId == subjectForClassId).AsNoTracking().ToListAsync();
+            var chapters = await _context.Chapters
+            .Where(c =>c.SubjectForClassId == subjectForClassId).AsNoTracking().ToListAsync();
             
             return chapters;
         }
@@ -49,15 +49,20 @@ namespace ElearningWebApp.API.Data
             return topic;
         }
 
-        public Task<Videos> GetVideoByChapterId(int chapterId)
+        public async Task<ICollection<Videos>> GetVideoBySubjectId(int subjectId)
         {
-            throw new System.NotImplementedException();
+            var videos = await _context.Videos.Where(v => v.SubjectForClass.SubjectId == subjectId & v.Isfree == true).ToListAsync();
+            return videos;
         }
 
-        public Task<Videos> GetVideoByTopicId(int topicId)
+        public async Task<ICollection<Topics>> GetTopicsByChapterId(int chapterId)
         {
-            throw new System.NotImplementedException();
+            var topics = await _context.Topics
+            .Include(v => v.Videos).Where(c => c.ChapterId == chapterId).AsNoTracking().ToListAsync();
+            
+            return topics;
         }
+
 
         public async Task<bool> IsExistSubjectName(string name)
         {

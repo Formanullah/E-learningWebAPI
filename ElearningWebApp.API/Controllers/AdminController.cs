@@ -105,7 +105,7 @@ namespace ElearningWebApp.API.Controllers
 
             if (await _repo.SaveAll())
             {
-                return Ok("Subject Delete Successfully");
+                return Ok();
             }
             return BadRequest("Failed to Delete this subject");
         }
@@ -147,7 +147,7 @@ namespace ElearningWebApp.API.Controllers
 
             if (await _repo.SaveAll())
             {
-                return Ok("Subject add in the class successfully");
+                return Ok();
             }
 
             return BadRequest("Failed to add subject in the class");
@@ -226,7 +226,7 @@ namespace ElearningWebApp.API.Controllers
             if (await _repo.SaveAll())
             {
                 _repo.DeleteFromRoot(subject.VirtualPath);
-                return Ok("Subject Delete Successfully");
+                return Ok();
             }
             return BadRequest("Failed to Delete this subject from class");
         }
@@ -234,15 +234,18 @@ namespace ElearningWebApp.API.Controllers
         [HttpPost("AddClass")]
         public async Task<IActionResult> AddClass(ClassCreationDto classs)
         {
-            if(classs.Name != null)
-            {
-                var createdClass = _mapper.Map<Class>(classs);
-                _repo.Add<Class>(createdClass);
-            }
+            if(classs.Name == null)
+                return BadRequest();
+
+            if (await _repo.IsExistClassName(classs.Name))
+                return BadRequest("class Name already Exist");
+
+            var createdClass = _mapper.Map<Class>(classs);
             
+            _repo.Add<Class>(createdClass);
             if (await _repo.SaveAll())
             {
-                return Ok("Class added successfully");
+                return Ok();
             }
 
             return BadRequest("Failed to add class");
@@ -282,7 +285,7 @@ namespace ElearningWebApp.API.Controllers
 
             if (await _repo.SaveAll())
             {
-                return Ok("Class Delete Successfully");
+                return Ok();
             }
             return BadRequest("Failed to Delete this Class");
         }
@@ -307,11 +310,18 @@ namespace ElearningWebApp.API.Controllers
 
             if (await _repo.SaveAll())
             {
-                return Ok("Chapter add in the class successfully");
+                return Ok();
             }
 
             return BadRequest("Failed to add Chapter");
 
+        }
+
+        [HttpGet("GetAllChapters")]
+        public async Task<IActionResult> GetAllChapter()
+        {
+            var chapters = await _repo.GetAllChapters();
+            return Ok(chapters);
         }
 
         // bring data by subjectIdForClass from Chapter table
@@ -364,7 +374,7 @@ namespace ElearningWebApp.API.Controllers
 
             if (await _repo.SaveAll())
             {
-                return Ok("Chpater Delete Successfully");
+                return Ok();
             }
             return BadRequest("Failed to Delete this Chpater");
         }
@@ -392,11 +402,18 @@ namespace ElearningWebApp.API.Controllers
 
             if (await _repo.SaveAll())
             {
-                return Ok("Topic add successfully");
+                return Ok();
             }
 
             return BadRequest("Failed to add topic");
 
+        }
+
+        [HttpGet("GetAllTopics")]
+        public async Task<IActionResult> GetAllTopics()
+        {
+            var topics = await _repo.GetAllTopics();
+            return Ok(topics);
         }
 
         [HttpGet("GetAllTopicsByChapterId/{chapterId}")]
@@ -446,7 +463,7 @@ namespace ElearningWebApp.API.Controllers
 
             if (await _repo.SaveAll())
             {
-                return Ok("Topic Delete Successfully");
+                return Ok();
             }
             return BadRequest("Failed to Delete this topic");
         }
@@ -458,15 +475,6 @@ namespace ElearningWebApp.API.Controllers
         [RequestFormLimits(MultipartBodyLengthLimit = 10L * 1024L * 1024L * 1024L)]
         public async Task<IActionResult> AddVideo([FromForm] VideoForCreationDto videoForCreationDto)
         {
-            if (!await _repo.IsExistClass(videoForCreationDto.ClassId))
-                return BadRequest("Class Doesn't Exist");
-
-            if (!await _repo.IsExistSubjectInClass(videoForCreationDto.ClassId, videoForCreationDto.SubjectIdInClass))
-                return BadRequest("Subject is not Exist in this class");
-
-            if (!await _repo.IsExistChapter(videoForCreationDto.ChapterId))
-                return BadRequest("Chapter doesn't Exist");
-
             if (!await _repo.IsExistTopic(videoForCreationDto.TopicId))
                 return BadRequest("Topic doesn't Exist");
 
@@ -485,11 +493,11 @@ namespace ElearningWebApp.API.Controllers
                         File = new FileDescription(file.FileName, stream),
                         /* Transformation = new Transformation()
                         .Width(500).Height(500).Crop("fill").Gravity("face"), */
-                        EagerTransforms = new List<Transformation>()
+                        /* EagerTransforms = new List<Transformation>()
                         {
                             new EagerTransformation().Width(300).Height(300).Crop("pad").AudioCodec("none"),
                             new EagerTransformation().Width(160).Height(100).Crop("crop").Gravity("south").AudioCodec("none")},
-                        EagerAsync = true
+                        EagerAsync = true */
                     };
 
                     uploadResult = _cloudinary.UploadLarge(uploadParams);
@@ -504,13 +512,16 @@ namespace ElearningWebApp.API.Controllers
             videoToCreate.CreatedDate = DateTime.Now;
             videoToCreate.SubjectName = topic.SubjctName;
             videoToCreate.TopicName = topic.Name;
+            videoToCreate.ClassId = topic.ClassId;
+            videoToCreate.SubjectForClassId = topic.SubjectIdInClass;
+            videoToCreate.ChapterId =topic.ChapterId;
 
 
             _repo.Add<Videos>(videoToCreate);
 
             if (await _repo.SaveAll())
             {
-                return Ok("Video add successfully");
+                return Ok();
             }
 
             return BadRequest("Failed to add Video");
@@ -518,7 +529,14 @@ namespace ElearningWebApp.API.Controllers
 
         }
 
-        [HttpDelete("{id}")]
+        [HttpGet("GetAllVideos")]
+        public async Task<IActionResult> GetAllVideos()
+        {
+            var videos = await _repo.GetAllVideos();
+            return Ok(videos);
+        }
+
+        [HttpDelete("DeleteVideo/{id}")]
         public async Task<IActionResult> DeleteVideo(int id)
         {
 
@@ -530,6 +548,7 @@ namespace ElearningWebApp.API.Controllers
             if (videoFromRepo.PublicId != null)
             {
                 var deleteParams = new DeletionParams(videoFromRepo.PublicId);
+                deleteParams.ResourceType = ResourceType.Video;
 
                 var result = _cloudinary.Destroy(deleteParams);
 

@@ -1,3 +1,4 @@
+import { AuthGuard } from './../_guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -5,6 +6,8 @@ import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
 import { FrontEndRoutingModule } from './front-end-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 import { FrontEndComponent } from './front-end.component';
 import { HomeComponent } from './home/home.component';
@@ -16,8 +19,12 @@ import { NoticeComponent } from './notice/notice.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SubjectsComponent } from './class/subjects/subjects.component';
 import { SubjectDetailsComponent } from './class/subject-details/subject-details.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { SubejctVideo } from '../_resolver/subjects-video.resolver';
+import { SubjectVideoComponent } from './subject-video/subject-video.component';
+import { SubjectsResolver } from '../_resolver/subjects.resolver';
+import { SubjectsChapter } from '../_resolver/subjects-chapter.resolver';
+import { ChaptersComponent } from './class/chapters/chapters.component';
+import { SubjectsTopicResolver } from '../_resolver/subjects-topic.resolver';
 
 @NgModule({
   declarations: [
@@ -30,7 +37,9 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     NoticeComponent,
     ProfileComponent,
     SubjectsComponent,
-    SubjectDetailsComponent
+    SubjectDetailsComponent,
+    SubjectVideoComponent,
+    ChaptersComponent
   ],
   imports: [
     RouterModule,
@@ -40,6 +49,12 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     ReactiveFormsModule,
     SlickCarouselModule
   ],
-  providers: []
+  providers: [
+    SubejctVideo,
+    SubjectsResolver,
+    SubjectsChapter,
+    SubjectsTopicResolver,
+    AuthGuard
+  ]
 })
 export class FrontEndModule { }

@@ -84,7 +84,7 @@ namespace ELearningWebApp.API
             }) */;
 
             services.AddControllers()
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             .AddNewtonsoftJson(
             options =>
             {

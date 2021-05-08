@@ -1,5 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '../_guards/auth.guard';
+import { SubjectsChapter } from '../_resolver/subjects-chapter.resolver';
+import { SubjectsTopicResolver } from '../_resolver/subjects-topic.resolver';
+import { SubejctVideo } from '../_resolver/subjects-video.resolver';
+import { SubjectsResolver } from '../_resolver/subjects.resolver';
+import { ChaptersComponent } from './class/chapters/chapters.component';
 
 import { SubjectDetailsComponent } from './class/subject-details/subject-details.component';
 import { SubjectsComponent } from './class/subjects/subjects.component';
@@ -14,6 +20,7 @@ import { LoginComponent } from './login/login.component';
 import { NoticeComponent } from './notice/notice.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
+import { SubjectVideoComponent } from './subject-video/subject-video.component';
 /* import { LoginComponent } from '../login/login.component';
 import { UserRegistrationComponent } from '../user-registration/user-registration.component';
 import { AllshopComponent } from '../allshop/allshop.component';
@@ -31,38 +38,26 @@ const routes: Routes = [
       path: '',
       component: FrontEndComponent,
       children: [
-
         { path: 'home', component: HomeComponent },
-        { path: 'subjects', component: SubjectsComponent },
-        { path: 'subjectdetails', component: SubjectDetailsComponent },
         { path: 'login', component: LoginComponent },
-        { path: 'signup', component: RegisterComponent },
-        { path: 'notice', component: NoticeComponent },
-        { path: 'profile', component: ProfileComponent },
-        {path: '', redirectTo: '/home', pathMatch: 'full'},
-        /*
-        { path: 'cart', component: CartComponent },
-        { path: 'shops/:id', component: CollectionComponent, resolve: {products: VendorproductlistResolver} },
-        { path: 'category/:id', component: CollectionComponent, resolve: {products: ProductListByCategoryResolver} },
-        { path: 'product/:id', component: ProductDetailsComponent, resolve: {product: ProductDetailsResolver} }, */
-        {
-          /* path: 'checkout',
-          component: CheckoutComponent, */
-          // canActivate: [AngularFireAuthGuard],
-          // data: { authGuardPipe: redirectUnauthorizedToLogin }
-        },
-        {
-          /* path: 'order-success',
-          component: OrderSuccessComponent */
-          // canActivate: [AngularFireAuthGuard],
-          // data: { authGuardPipe: redirectUnauthorizedToLogin }
-        },
-      /*   { path: 'login', component: LoginComponent },
-        { path: 'user-registration', component: UserRegistrationComponent },
-        { path: 'vendor-registration', component: VendorRegistrationComponent },
-        { path: 'all-shop', component: AllshopComponent, resolve: {shops: ShoplistResolver} } */
+      { path: 'signup', component: RegisterComponent },
+      { path: 'subjectsvideo/:id', component: SubjectVideoComponent , resolve: {videos: SubejctVideo}},
+      {path: '', redirectTo: '/home', pathMatch: 'full'},
       ]
-    }
+    },
+
+    {path: '',
+    component: FrontEndComponent,
+    
+    children: [
+      { path: 'subjects/:id', component: SubjectsComponent, resolve: {subjects: SubjectsResolver} },
+      { path: 'chapters/:id', component: ChaptersComponent , resolve: {chapters: SubjectsChapter}},
+      { path: 'topics/:id', component: SubjectDetailsComponent , resolve: {topics: SubjectsTopicResolver}},
+      { path: 'notice', component: NoticeComponent },
+      { path: 'profile', component: ProfileComponent },
+    ]
+  },
+  {path: '**', redirectTo: '', pathMatch: 'full'},
   ];
 
 @NgModule({

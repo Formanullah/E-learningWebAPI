@@ -2,15 +2,15 @@
 <div class="mainsubjects" >
   <h2>Subjects:</h2>
   <div class="row col-md-10 col-sm-12 col-12" >
-    <div class="col-md-2 col-sm-2 col-3 classSub">
+    <div *ngFor="let subject of subjects" class="col-md-2 col-sm-2 col-3 classSub">
       <div class="card do " >
-        <a href="#">  <div class="card-body">
+        <a [routerLink]="['/chapters/',subject.id]" >  <div class="card-body">
           <i class="fa fa-book card-title"></i>
-          <h5 class="card-title">Bangla</h5>
+          <h5 class="card-title"> {{subject.subjectName}} </h5>
         </div></a>
       </div>
      </div>
-    <div class="col-md-2 col-sm-2 col-3 classSub" >
+<!--     <div class="col-md-2 col-sm-2 col-3 classSub" >
     <div class="card do " >
       <a href="../../../../assets/physics.html"><div class="card-body">
         <i class="fa fa-gavel card-title"></i>
@@ -42,7 +42,7 @@
         <h5 class="card-title">English</h5>
       </div></a>
     </div>
-   </div>
+   </div> -->
   </div>
 
 </div>

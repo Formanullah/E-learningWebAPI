@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from 'src/app/_guards/auth.guard';
 import { AdminLoginComponent } from '../admin-login/admin-login.component';
+import { AdminRegisterComponent } from '../admin-register/admin-register.component';
 import { BannerComponent } from '../banner/banner.component';
 import { ChapterComponent } from '../chapter/chapter.component';
 import { ClassComponent } from '../class/class.component';
@@ -14,22 +16,26 @@ import { AdminComponent } from './admin.component';
 
 
 const adminRoutes: Routes = [
-    {
-      path: '',
-      component: AdminComponent,
-      children: [
-        {path: 'dashboard', component: DashboardComponent},
-        {path: 'chapter', component: ChapterComponent},
-        {path: 'class', component: ClassComponent},
-        {path: 'subject', component: SubjectComponent},
-        {path: 'subjectsforclass', component: SubjectsForClassComponent},
-        {path: 'topic', component: TopicComponent},
-        {path: 'video', component: VideoComponent},
-        {path: 'banner', component: BannerComponent},
-        {path: 'admin-login', component: AdminLoginComponent},
-        {path: '', redirectTo: '/dashboard', pathMatch: 'full'}
-      ]
-    }
+    {path: '', component: AdminLoginComponent},
+    {path: 'admin-login', component: AdminLoginComponent},
+
+    {path: '',
+    component: AdminComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    children: [
+      {path: 'dashboard', component: DashboardComponent},
+      {path: 'chapter', component: ChapterComponent},
+      {path: 'class', component: ClassComponent},
+      {path: 'subject', component: SubjectComponent},
+      {path: 'subjectsforclass', component: SubjectsForClassComponent},
+      {path: 'topic', component: TopicComponent},
+      {path: 'video', component: VideoComponent},
+      {path: 'banner', component: BannerComponent},
+      {path: 'register', component: AdminRegisterComponent}
+    ]
+  },
+  {path: '**', redirectTo: '', pathMatch: 'full'}
 
 ];
 

@@ -13,6 +13,7 @@ import { SubjectsForClassComponent } from '../subjects-for-class/subjects-for-cl
 import { TopicComponent } from '../topic/topic.component';
 import { VideoComponent } from '../video/video.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminRegisterComponent } from '../admin-register/admin-register.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SubjectComponent,
     SubjectsForClassComponent,
     TopicComponent,
-    VideoComponent
+    VideoComponent,
+    AdminRegisterComponent
   ],
 
   imports: [

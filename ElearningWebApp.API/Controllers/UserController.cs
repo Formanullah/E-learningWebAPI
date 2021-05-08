@@ -40,5 +40,15 @@ namespace ElearningWebApp.API.Controllers
             var chapters = await _repo.GetChaptersBySubjectId(id);
             return Ok(chapters);
         }
+
+        [HttpGet("GetAllTopics/{id}")]
+        public async Task<IActionResult> GetAllTopics(int id)
+        {
+            if(! await _repo.IsExistChapter(id))
+                return BadRequest("Chapter doesn't Exist");
+                
+            var topics = await _repo.GetTopicsByChapterId(id);
+            return Ok(topics);
+        }
     }
 }

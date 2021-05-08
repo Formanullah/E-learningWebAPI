@@ -1,13 +1,13 @@
 <div class="navbar sticky-top navbar-expand-lg " style="background-image: linear-gradient(-70deg,#242424,brown);">
   <div class="container">
-    <a class="navbar-brand" href="#" style="color:white;font-size: 26px;">Courses</a>
+    <a class="navbar-brand" [routerLink]="['/home']" style="color:white;font-size: 26px;">Courses</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span ><i class="fa fa-bars" style="color: white"></i></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
       <ul class="navbar-nav " style="margin-right:12%">
         <li class="nav-item">
-            <a class="nav-link"   href="../../../assets/index.html">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link"  [routerLink]="['/home']" >Home <span class="sr-only">(current)</span></a>
         </li>
        
         <li class="nav-item dropdown" style="background-color: none;">
@@ -27,13 +27,18 @@
         <li class="nav-item">
           <a class="nav-link" href="#contact"> Contact Info</a>
       </li>
-    
-        <li class="nav-item">
-            <a class="nav-link" href="../../../assets/login.html">Log In</a>
+      <li *ngIf="! loggedIn()" class="nav-item">
+        <a class="nav-link" [routerLink]="['/signup']">Register</a>
+    </li>
+        <li  *ngIf="! loggedIn()" class="nav-item">
+            <a class="nav-link" [routerLink]="['/login']">Log In</a>
+        </li>
+        <li  *ngIf="loggedIn()" class="nav-item">
+            <a class="nav-link" href="#" (click)="logout()">log Out</a>
         </li>
        
-        <li class="nav-item">
-          <a class="nav-link"   href="../../../assets/profile.html">Profile <span class="sr-only">(current)</span></a>
+        <li  *ngIf="loggedIn()" class="nav-item">
+          <a class="nav-link"   [routerLink]="['/profile']">Profile <span class="sr-only">(current)</span></a>
       </li>
 
     </ul>

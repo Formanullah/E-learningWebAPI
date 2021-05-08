@@ -2,16 +2,16 @@
   <div class="row col-md-12 mt-5" style="margin-left: 6%;">
     <div class="col-md-6">
       <h5 style="margin-left: 20%;color: darkred;font-size: 30px;">Add Subjects</h5>
-      <form>
+      <form #SubjectCreationForm="ngForm" (ngSubmit)="createSubject()">
         <div class="form-row col-md-12 mt-4">
           <div class=" col-md-8 ml-5 ">
             <div class="form-group">
               <label for="input-title">Subject</label>
-              <input type="text" class="form-control" id="input-title" name="title" value=""
+              <input type="text" class="form-control" id="input-title" name="name" [(ngModel)]="subject.name"
                 aria-describedby="titleHelp" placeholder="Enter subject">
 
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button [disabled]="!SubjectCreationForm.valid" type="submit" class="btn btn-primary">Submit</button>
           </div>
 
         </div>
@@ -30,25 +30,14 @@
             </tr>
           </thead>
           <tbody style=" text-align: center;">
-            <tr>
-              <td>Bangla</td>
+            <tr *ngFor="let subject of subjects">
+              <td>{{subject.name}}</td>
               <td>
-                <button type="button" class="btn btn-danger " data-toggle="modal"
+                <button type="button" class="btn btn-success " data-toggle="modal"
                   data-target="#staticBackdroppost">Update</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Englisg</td>
-              <td>
-                <button type="button" class="btn btn-danger " data-toggle="modal"
-                  data-target="#staticBackdroppost">Update</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Math</td>
-              <td>
-                <button type="button" class="btn btn-danger " data-toggle="modal"
-                  data-target="#staticBackdroppost">Update</button>
+
+                <button type="button" class="btn btn-danger " 
+                 (click)="deleteSubject(subject.id)">Delete</button>
               </td>
             </tr>
 
@@ -57,5 +46,40 @@
       </div>
 
     </div>
+
+    <div class="modal fade" id="staticBackdroppost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="staticBackdropLabel" style="padding-left: 30%;">Update Subjects</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+          <div class="modal-body">
+            <form #updateForm (ngSubmit)="updateSubject()">
+              <div class="form-row col-md-12 mt-4">
+                <div class=" col-md-8 ml-5 ">     
+                    <div class="form-group">
+                        <label for="input-title">Subject</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="input-title"
+                                name="name"
+                                [(ngModel)]="updatedSubject.name"
+                                aria-describedby="titleHelp"
+                                placeholder="Enter subject name">
+      
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+               </div>
+      
+      </div>
+          
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
